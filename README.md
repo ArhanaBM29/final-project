@@ -1,1 +1,1 @@
-# final-project
+# Heart-Disease-Pred
