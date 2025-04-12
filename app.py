@@ -136,24 +136,27 @@ def main():
             st.stop()
         ann_app()
 
-    elif choice == "Metrics":
-        if not st.session_state.logged_in:
-            st.warning("⚠ Please login to access the Metrics page.")
-            st.stop()
+  elif choice == "Metrics":
+    if not st.session_state.logged_in:
+        st.warning("⚠ Please login to access the Metrics page.")
+        st.stop()
 
-        st.markdown('<p class="section-header">📊 Model Metrics and Performance</p>', unsafe_allow_html=True)
+    st.markdown('<p class="section-header">📊 Model Metrics and Performance</p>', unsafe_allow_html=True)
 
-        exp_path = os.path.join(os.path.dirname(_file_), "exp.html")
-        if os.path.isfile(exp_path):
-            try:
-                with open(exp_path, 'r', encoding='utf-8') as f:
-                    html_content = f.read()
-                st.markdown("<h2 style='text-align: center; color: #4CAF50;'>📈 Model Performance Metrics</h2>", unsafe_allow_html=True)
-                st.components.v1.html(html_content, height=800)
-            except Exception as e:
-                st.error(f"⚠ Error reading exp.html: {e}")
-        else:
-            st.error(f"🚫 'exp.html' not found at {exp_path}. Please ensure it's in the same folder as app.py.")
+    # Safe and simple way to get the path to exp.html
+    exp_path = os.path.abspath("exp.html")
+
+    if os.path.isfile(exp_path):
+        try:
+            with open(exp_path, 'r', encoding='utf-8') as f:
+                html_content = f.read()
+            st.markdown("<h2 style='text-align: center; color: #4CAF50;'>📈 Model Performance Metrics</h2>", unsafe_allow_html=True)
+            st.components.v1.html(html_content, height=800)
+        except Exception as e:
+            st.error(f"⚠ Error reading exp.html: {e}")
+    else:
+        st.error(f"🚫 'exp.html' not found at {exp_path}. Please ensure it's in the same folder as app.py.")
+
 
     elif choice == "About":
         if not st.session_state.logged_in:
